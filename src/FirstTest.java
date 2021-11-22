@@ -1,6 +1,7 @@
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -36,6 +37,21 @@ public class FirstTest {
     }
 
     @Test
+    public void testCheckSearchInputPlaceholderText(){
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot locate element to click",
+                5
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search…",
+                "Element text is different from what was expected"
+        );
+
+    }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
@@ -70,5 +86,12 @@ public class FirstTest {
         element.clear();
         return element;
     }
+
+    private void assertElementHasText(By by, String expected_text, String error_message){
+        WebElement element = waitForElementPresent(by, "Cannot locate element with text", 5);
+        String element_value = element.getAttribute("text");
+        Assert.assertEquals(error_message, expected_text, element_value);
+    }
+
 
 }
