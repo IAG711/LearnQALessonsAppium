@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest {
 
@@ -50,7 +51,42 @@ public class FirstTest {
                 "Search…",
                 "Element text is different from what was expected"
         );
+    }
 
+    @Test
+    public void testCheckIfSearchResultsPresent(){
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot locate element to click",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Cannot locate element to send keys to",
+                5
+        );
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_results_list"),
+                "Cannot locate search results",
+                20
+        );
+
+        assertSearchResultsAreShown();
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Cannot locate Close search button",
+                5
+        );
+
+        waitForElementNotPresent(
+                By.id("org.wikipedia:id/search_results_list"),
+                "Search results are still shown",
+                15
+        );
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
@@ -93,5 +129,10 @@ public class FirstTest {
         Assert.assertEquals(error_message, expected_text, element_value);
     }
 
+    private void assertSearchResultsAreShown(){
+        List get_elements = driver.findElements(By.id("org.wikipedia:id/search_results_list"));
+        int element_count = get_elements.size();
+        Assert.assertTrue("Search list is empty",element_count > 0);
+    }
 
 }
