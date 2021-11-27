@@ -1,10 +1,12 @@
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -37,57 +39,7 @@ public class FirstTest {
         driver.quit();
     }
 
-    @Test
-    public void testCheckSearchInputPlaceholderText(){
 
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot locate element to click",
-                5
-        );
-
-        assertElementHasText(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Search…",
-                "Element text is different from what was expected"
-        );
-    }
-
-    @Test
-    public void testCheckIfSearchResultsPresent(){
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot locate element to click",
-                5
-        );
-
-        waitForElementAndSendKeys(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Java",
-                "Cannot locate element to send keys to",
-                5
-        );
-
-        waitForElementPresent(
-                By.id("org.wikipedia:id/search_results_list"),
-                "Cannot locate search results",
-                20
-        );
-
-        assertSearchResultsAreShown();
-
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/search_close_btn"),
-                "Cannot locate Close search button",
-                5
-        );
-
-        waitForElementNotPresent(
-                By.id("org.wikipedia:id/search_results_list"),
-                "Search results are still shown",
-                15
-        );
-    }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
