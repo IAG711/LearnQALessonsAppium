@@ -139,6 +139,21 @@ public class FirstTest {
 
     }
 
+    @Test
+    public void testAssertThatElementIsPresent(){
+        String first_article = "Russia";
+
+        searchForArticleFromMainScreen(search_query);
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='"+ first_article +"']"),
+                "Cannot locate search result with title " + first_article,
+                5
+        );
+
+        assertElementPresent(element_article_title);
+    }
+
 
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
@@ -289,6 +304,10 @@ public class FirstTest {
     private void assertElementIsPresent(By by){
         WebElement element = driver.findElement(by);
         Assert.assertTrue("Element " + by + " is not located on the page", element.isDisplayed());
+    }
+
+    private void assertElementPresent(By by){
+        Assert.assertFalse("Cannot locate presence of element", driver.findElements(by).isEmpty());
     }
 
 }
