@@ -5,11 +5,12 @@ import Lib.UI.SearchPageObject;
 import org.junit.Test;
 
 public class SearchTests extends CoreTestCase {
-    SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
 
     //Ex.3
     @Test
     public void testCheckIfSearchResultsPresent(){
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.insertSearchQuery("Russia");
         SearchPageObject.assertSearchResultsAreShown();

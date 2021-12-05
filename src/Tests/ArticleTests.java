@@ -8,10 +8,6 @@ import Lib.UI.SearchPageObject;
 import org.junit.Test;
 
 public class ArticleTests extends CoreTestCase {
-    SearchPageObject SearchPageObject = new SearchPageObject(driver);
-    ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
-    NavigationUI NavigationUI = new NavigationUI(driver);
-    MyListsPageObject MyListsPageObject = new MyListsPageObject(driver);
 
     //EX.5
     @Test
@@ -20,6 +16,11 @@ public class ArticleTests extends CoreTestCase {
         String search_query = "Russia";
         String first_article = "Russia";
         String second_article = "Russian language";
+
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        NavigationUI NavigationUI = new NavigationUI(driver);
+        MyListsPageObject MyListsPageObject = new MyListsPageObject(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.insertSearchQuery(search_query);
@@ -43,6 +44,9 @@ public class ArticleTests extends CoreTestCase {
     //EX.6
     @Test
     public void testAssertThatElementIsPresent(){
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+
         SearchPageObject.initSearchInput();
         SearchPageObject.insertSearchQuery("Russia");
         SearchPageObject.openArticle("Russia");
