@@ -14,6 +14,7 @@ public class WelcomePageObject extends MainPageObject{
     By learn_about_data_collection_text = By.id("Learn more about data collected");
     By nextBtn = By.id("Next");
     By getStartedBtn = By.id("Get started");
+    By SkipBtn = By.id("Skip");
 
 
 
@@ -42,11 +43,8 @@ public class WelcomePageObject extends MainPageObject{
         this.waitForElementAndClick(getStartedBtn, "Cannot locate Get started button", 10);
     }
 
-
-
-
-
-
-
+    public void clickSkip(){
+        this.waitForElementAndClick(SkipBtn, "Cannot locate Skip button", 10);
+    }
 
 }

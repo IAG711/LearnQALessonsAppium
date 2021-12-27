@@ -1,21 +1,26 @@
 package Lib.UI;
 
+import Lib.Platform;
 import io.appium.java_client.AppiumDriver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 
-public class ArticlePageObject extends MainPageObject{
+abstract public class ArticlePageObject extends MainPageObject{
+    protected static By
+    element_article_title,
+    element_add_to_reading_list,
+    element_reading_list_onboarding_btn,
+    element_reading_list_name_input,
+    element_reading_list_ok_btn,
+    element_article_screen_search_btn,
+    element_cross_btn,
+            element_return_to_explore_btn,
+    element_authorization_popup_close,
+    element_remove_from_reading_list;
+
     public ArticlePageObject(AppiumDriver driver) {
         super(driver);
     }
-
-    By element_article_title = By.id("org.wikipedia:id/view_page_title_text");
-    By element_add_to_reading_list = By.xpath("//android.widget.ImageView[@content-desc='Add this article to a reading list']");
-    By element_reading_list_onboarding_btn = By.id("org.wikipedia:id/onboarding_button");
-    By element_reading_list_name_input = By.id("org.wikipedia:id/text_input");
-    By element_reading_list_ok_btn = By.xpath("//*[@text='OK']");
-    By element_article_screen_search_btn = By.id("org.wikipedia:id/menu_page_search");
-    By element_cross_btn = By.xpath("*//android.widget.ImageButton[@content-desc='Navigate up']");
 
     public void waitForArticleTitleToAppear(){
         this.waitForElementPresent(element_article_title, "Cannot locate article title element", 15);
@@ -58,8 +63,15 @@ public class ArticlePageObject extends MainPageObject{
         selectExistingReadingList(list_name);
     }
 
+
     public void closeArticle(){
-        this.waitForElementAndClick(element_cross_btn, "Cannot locate cross button on article page", 5);
+        if (Platform.getInstance().isAndroid()) {
+            this.waitForElementAndClick(element_cross_btn, "Cannot locate cross button on article page", 5);
+        } else this.waitForElementAndClick(element_return_to_explore_btn, "Cannot find Return to explore button", 5);
+    }
+
+    public void closeAuthorizationModal(){
+        this.waitForElementAndClick(element_authorization_popup_close, "Cannot locate cross button", 5);
     }
 
     public void assertThatArticleHaveCorrectTitle(String expected_title){
@@ -68,6 +80,10 @@ public class ArticlePageObject extends MainPageObject{
 
     public void assertTitleElementPresent(){
         Assert.assertFalse("Cannot locate presence of element", driver.findElements(element_article_title).isEmpty());
+    }
+
+    public void assertThatArticleIsSaved() {
+        this.waitForElementPresent(element_remove_from_reading_list, "Article is not marked as saved", 5);
     }
 
 

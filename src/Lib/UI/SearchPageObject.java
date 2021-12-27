@@ -1,20 +1,23 @@
 package Lib.UI;
 
+import Lib.Platform;
 import io.appium.java_client.AppiumDriver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-public class SearchPageObject extends MainPageObject {
+abstract public class SearchPageObject extends MainPageObject {
+
+   protected static By
+            element_search_open,
+            element_search_input,
+            element_search_results_list,
+            element_close_search_btn;
     public SearchPageObject(AppiumDriver driver) {
         super(driver);
     }
 
-    By element_search_open = By.id("org.wikipedia:id/search_container");
-    By element_search_input = By.id("org.wikipedia:id/search_src_text");
-    By element_search_results_list = By.id("org.wikipedia:id/search_results_list");
-    By element_close_search_btn = By.id("org.wikipedia:id/search_close_btn");
     static String element_search_result_string_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']";
 
     private static String getResultSearchElement(String substring){
@@ -36,7 +39,11 @@ public class SearchPageObject extends MainPageObject {
     }
 
     public void openArticle(String article_name){
-        this.waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='"+ article_name +"']"), "Cannot locate search result with title " + article_name, 5);
+        if (Platform.getInstance().isAndroid()) {
+            this.waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='" + article_name + "']"), "Cannot locate search result with title " + article_name, 5);
+        } else{
+            this.waitForElementAndClick(By.xpath("//XCUIElementTypeStaticText[@name='" + article_name + "']"), "Cannot locate search result with title " + article_name, 5);
+        }
     }
 
     public void closeSearchResults() {
